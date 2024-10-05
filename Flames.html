@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLAMES Name Game for Couples</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #ff9a9e, #fecfef);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    h1 {
+      color: #ff4e50;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #ff4e50;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #ff4e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff6b6b;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff4e50;
+    }
+
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>FLAMES Game</h1>
+    <p>Enter your names to find out your connection!</p>
+    <input type="text" id="name1" placeholder="Your Name" />
+    <input type="text" id="name2" placeholder="Partner's Name" />
+    <button onclick="playFlames()">Check FLAMES</button>
+    <div id="result"></div>
+  </div>
+
+  <footer>&copy; 2024 FLAMES Game | Made with ❤️ for Couples by Manash</footer>
+
+  <script>
+    function playFlames() {
+      const name1 = document.getElementById('name1').value.toLowerCase().replace(/\s+/g, '');
+      const name2 = document.getElementById('name2').value.toLowerCase().replace(/\s+/g, '');
+      const flamesResult = flamesLogic(name1, name2);
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `Your FLAMES result is: ${flamesResult.result} ${flamesResult.emoji}<br>${flamesResult.hint}`;
+    }
+
+    function flamesLogic(name1, name2) {
+      const flames = ['Friends', 'Love', 'Affection', 'Marriage', 'Enemies', 'Siblings'];
+      const emojis = ['👫', '❤️', '💖', '💍', '😈', '👩‍👦'];
+      const hints = [
+        "You're great friends! Keep the bond strong.",
+        "Love is in the air! Cupid's arrow has struck!",
+        "There’s a sweet connection of affection between you two.",
+        "Get ready for wedding bells, marriage might be on the cards!",
+        "Uh-oh! Seems like a bit of a rivalry, but you know what they say about love and hate!",
+        "You're like siblings—always looking out for each other!"
+      ];
+
+      let combinedNames = name1 + name2;
+      let charCount = combinedNames.split('').reduce((count, char) => {
+        const regex = new RegExp(char, 'g');
+        return count + (combinedNames.match(regex)?.length || 0);
+      }, 0);
+
+      const remainingChars = charCount % flames.length;
+      const index = (remainingChars - 1 + flames.length) % flames.length;
+
+      return {
+        result: flames[index],
+        emoji: emojis[index],
+        hint: hints[index]
+      };
+    }
+  </script>
+</body>
+</html>
